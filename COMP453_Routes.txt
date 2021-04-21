@@ -1,0 +1,38 @@
+Routes:
+
+home
+
+register
+	-If user is already logged in, navigate to home screen
+	-Otherwise, registration form opens
+
+login
+	-If user is already logged in, navigate to home screen
+	-Otherwise, login form opens.
+	
+account
+	-Validate user is signed in. If not, navigate to sign-in screen.
+	-Display details from user table.
+	-Allow for updates to certain information (phone number, email, insurance info, address)
+	
+vaccine-history
+	-Validate user is signed in. If not, navigate to sign-in screen.
+	-List vaccinations here.
+	-allow cancellation of future vaccines.
+	
+testing-history
+	-Validate user is signed in. If not, navigate to sign-in screen.
+	-List vaccinations here.
+	-allow cancellation of future testing.
+
+testing-signup
+	-Validate user is signed in. If not, navigate to sign-in screen.
+	-Display form to signup for testing.
+	-Consider breaking this route up into /testing-signup and /testing-signup/{Vaccination_Site} to make it easier to display available times for scheduling.
+	
+vaccine-signup
+	-If user has already received 2 doses, inform them and do not display signup form. Consider adding button/link to direct them to vaccination history screen.
+	-If user has received 1 dose, display vaccine-signup form. Only allow for appointment to be made for 2nd dose 4 weeks after 1 dose date and same type of vaccine (Moderna vs Pfizer).
+	-If user has not received a dose, display vaccine-signup form.
+	-Consider breaking this route up into /vaccine-signup and /vaccine-signup/{Vaccination_Site} to make it easier to display available times for scheduling.
+	

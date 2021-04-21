@@ -1,0 +1,112 @@
+Create Table Testing_Site
+(testID int not null auto_increment, testName varchar(50) not null, testAddress varchar(100) not null, testZip Char(5) not null,
+testCity varchar(50) not null, testPhone char(10) not null, testOpen char(4) not null,
+testClose char(4) not null, testSunday BOOLEAN, testMonday BOOLEAN, testTuesday BOOLEAN, testWednesday BOOLEAN, testThursday BOOLEAN, testFriday BOOLEAN,
+testSaturday BOOLEAN,
+constraint testID_PK Primary Key(testID));
+
+Create Table Vaccination_Site
+(vaxID int not null auto_increment, vaxName varchar(50) not null, vaxAddress varchar(100) not null, vaxZip Char(5) not null,
+vaxCity varchar(50) not null, vaxPhone char(10) not null, vaxOpen char(4) not null,
+vaxClose char(4) not null, vaxSunday BOOLEAN, vaxMonday BOOLEAN, vaxTuesday BOOLEAN, vaxWednesday BOOLEAN, vaxThursday BOOLEAN, vaxFriday BOOLEAN,
+vaxSaturday BOOLEAN,
+constraint vaxID_PK Primary Key(vaxID));
+
+Create Table Users
+(username varchar(25) Not null unique, firstName varchar(50) NOT NULL, lastName varchar(50) NOT NULL, password varchar(15) NOT NULL, birthDate DATE NOT NULL,
+userAddress varchar(100) NOT NULL, userZip char(5) NOT NULL, userCity varchar(50) not null,
+email varchar(50) NOT NULL, gender char(1) NOT NULL, userPhone char(10) NOT NULL, insuranceProvider varchar(50), insuranceNum varchar(20),
+constraint username_PK Primary Key(username));
+
+Create Table Vaccine
+(vaccineBrand varchar(25) Not null, vaccineLotNum char(15) NOT NULL, vaccineDistDate DATE NOT NULL, vaxID INT NOT NULL,
+constraint vaccine_PK Primary Key(vaccineBrand,vaccineLotNum),
+constraint vaxID_FK FOREIGN KEY (vaxID) references Vaccination_Site(vaxID)));
+
+Create Table Test
+(username varchar(25) Not null, testID INT NOT NULL, testDate DATE NOT NULL, testTime char(4) not null, testResult CHAR(1),
+constraint Test_PK Primary Key(username,testID,testDate),
+constraint username_TEST_FK FOREIGN KEY (username) references Users(username),
+constraint testID_FK FOREIGN KEY (testID) references Testing_Site(testID));
+
+Create Table Vaccination
+(username varchar(25) Not null, vaccineBrand varchar(25) Not null, vaccineLotNum char(15) NOT NULL, vaccineTime char(4) not null,
+constraint Test_PK Primary Key(username,vaccineBrand,vaccineLotNum),
+constraint username_VAX_FK FOREIGN KEY (username) references Users(username),
+constraint vaccineBrand_FK FOREIGN KEY (vaccineBrand,vaccineLotNum) references Vaccine(vaccineBrand,vaccineLotNum));
+
+insert into Testing_Site
+(testName,testAddress,testZip,testCity,testPhone,testOpen,testClose,testSunday,testMonday,testTuesday,testWednesday,testThursday,testFriday,testSaturday)
+Values 
+('Skokie COVID Testing','2100 Skokie Blvd','60077','Skokie','8472113000','0800','1700',FALSE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE),
+('Des Plaines COVID Testing','1700 Pennsylvania Ave','60085','Des Plaines','8471235000','0830','1600',TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE),
+('Evanston COVID Testing','3163 Oakton St','60201','Evanston','3121005400','0800','1900',FALSE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE),
+('Chicago COVID Testing','5000 Lincoln Ave','60650','Chicago','7732001000','0700','1700',TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE);
+
+insert into Vaccination_Site
+(vaxName,vaxAddress,vaxZip,vaxCity,vaxPhone,vaxOpen,vaxClose,vaxSunday,vaxMonday,vaxTuesday,vaxWednesday,vaxThursday,vaxFriday,vaxSaturday)
+Values 
+('Skokie Health Center','8400 Main St','60076','Skokie','8475121000','0700','1700',FALSE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE),
+('Gold Coast Medical','100 Lake Shore Dr','60659','Chicago','7739001120','0830','1730',TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE),
+('Andersonville United','3150 Clark St','60655','Chicago','3125252000','0800','1900',FALSE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE),
+('Northern Health','500 Lake St','60091','Glenview','8473502150','0800','1700',FALSE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE);
+
+insert into Users
+(username,firstName,lastName,password,birthDate,userAddress,userZip,userCity,email,gender,userPhone)
+Values 
+('tester1','Alec','Baldwin','test1','1998-02-21','225 Franklin St','60659','Chicago','tester1@gmail.com','M','7735223150'),
+('tester2','Stacy','Baldwin','test2','1990-12-01','5163 River Rd','60201','Skokie','tester2@gmail.com','F','8475110900'),
+('tester3','Travis','Benson','test3','2000-04-29','500 Ashwood Dr','60091','Naperville','tester3@gmail.com','M','8478708700'),
+('tester4','Mary','Wallace','test4','1977-07-13','3242 Sheridan Rd','60201','Evanston','tester4@gmail.com','M','3121331551');
+
+insert into Vaccine
+(vaccineBrand,vaccineLotNum,vaccineDistDate,vaxID)
+Values 
+('Moderna','000000000000001','2021-05-08',2),
+('Pfizer','000000000000002','2021-05-08',3),
+('Pfizer','000000000000003','2021-05-08',4),
+('Pfizer','000000000000005','2021-05-09',2),
+('Moderna','000000000000003','2021-05-10',1),
+('Pfizer','000000000000007','2021-05-10',2),
+('Pfizer','000000000000008','2021-05-10',3),
+('Moderna','000000000000004','2021-05-10',4),
+('Moderna','000000000000005','2021-05-11',1),
+('Moderna','000000000000006','2021-05-11',2),
+('Pfizer','000000000000009','2021-05-11',3),
+('Moderna','000000000000007','2021-05-11',4),
+('Moderna','000000000000008','2021-05-12',1),
+('Pfizer','000000000000010','2021-05-12',2),
+('Pfizer','000000000000011','2021-05-12',3),
+('Moderna','000000000000009','2021-05-12',4),
+('Moderna','000000000000010','2021-06-05',2),
+('Pfizer','000000000000013','2021-06-05',3),
+('Pfizer','000000000000014','2021-06-05',4),
+('Pfizer','000000000000016','2021-06-06',2),
+('Moderna','000000000000012','2021-06-07',1),
+('Pfizer','000000000000018','2021-06-07',2),
+('Pfizer','000000000000019','2021-06-07',3),
+('Moderna','000000000000013','2021-06-07',4),
+('Moderna','000000000000014','2021-06-08',1),
+('Moderna','000000000000015','2021-06-08',2),
+('Pfizer','000000000000020','2021-06-08',3),
+('Moderna','000000000000016','2021-06-08',4),
+('Moderna','000000000000017','2021-06-09',1),
+('Pfizer','000000000000021','2021-06-09',2),
+('Pfizer','000000000000022','2021-06-09',3),
+('Moderna','000000000000018','2021-06-09',4);
+
+INSERT INTO Test
+(username,testID,testDate,testTime,testResult)
+VALUES
+('tester1',1,'2021-04-29','1230',),
+('tester2',3,'2021-04-31','1415',),
+('tester3',4,'2021-04-29','1230',),
+('tester1',2,'2021-04-12','1500','P');
+
+INSERT INTO Vaccination
+(username,vaccineBrand,vaccineLotNum,vaccineTime)
+VALUES
+('tester1','Pfizer','000000000000002','1230'),
+('tester1','Pfizer','000000000000014','1230'),
+('tester2','Moderna','000000000000004','0930'),
+('tester3','Pfizer','000000000000010','1315');
