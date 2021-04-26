@@ -3,16 +3,58 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from flaskDemo import app, db, bcrypt
-from flaskDemo.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
-from flaskDemo.models import User, Post
+from flaskDemo.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, DeptForm,DeptUpdateForm
+from flaskDemo.models import User, Post,Department, Dependent, Dept_Locations, Employee, Project, Works_On
 from flask_login import login_user, current_user, logout_user, login_required
+from datetime import datetime
 
 
 @app.route("/")
-@app.route("/home")
-def home():
-    posts = Post.query.all()
-    return render_template('home.html', posts=posts)
+@app.route("/assignments")
+def assignments():
+##    results1 = Employee.query.all()
+##    return render_template('dept_home.html', outString = results)
+##    posts = Post.query.all()
+##    return render_template('home.html', posts=posts)
+##    results2 = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
+##               .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID) \
+##               .join(Course, Course.courseID == Qualified.courseID).add_columns(Course.courseName)
+##    results = Faculty.query.join(Qualified,Faculty.facultyID == Qualified.facultyID) \
+##              .add_columns(Faculty.facultyID, Faculty.facultyName, Qualified.Datequalified, Qualified.courseID)
+##    return render_template('join.html', title='Join',joined_1_n=results, joined_m_n=results2)
+    results1 = Employee.query.join(Works_On, Employee.ssn==Works_On.essn) \
+               .add_columns(Employee.fname, Employee.lname, Works_On.essn) \
+               .join(Project, Project.pnumber==Works_On.pno).add_columns(Project.pname, Works_On.pno)
+    return render_template('assignments.html', outString=results1)
+
+@app.route("/assignments/<pno>/<essn>")
+def assignment(pno,essn):
+    assignment=Works_On.query.get_or_404([essn,pno])
+    return render_template('assignment.html', title=str(assignment.pno) + "_" + str(assignment.essn), assignment=assignment, now=datetime.utcnow())
+    
+
+
+@app.route("/assignments/<pno>/<essn>/Delete", methods=['POST'])
+def assignment_delete(pno,essn):
+    assignment=Works_On.query.get_or_404([essn,pno])
+    db.session.delete(assignment)
+    db.session.commit()
+    flash('The assignment has been deleted.', 'Deleted')
+    return redirect (url_for('assignments'))
+
+##@app.route("assignments/new", methods=['GET', 'POST'])
+##def assignment_new():
+##    form=AssignmentForm
+##    if form.validate_on_submit():
+##        assignment=Works_On(pno=form.pno.data, essn=form.essn.data, hours=form.hours.data)
+##        db.session.add(assignment)
+##        db.session.commit()
+##        return redirect (url_for('assignments'))
+##    return render_template('create_assignment.html', title='New Assignment', form=form, legends='New Assignment')
+
+@app.route("/assignments/<pno>/<essn>/Update")
+def assignment_update(pno, essn):
+   return
 
 
 @app.route("/about")
@@ -92,53 +134,59 @@ def account():
                            image_file=image_file, form=form)
 
 
-@app.route("/post/new", methods=['GET', 'POST'])
+@app.route("/dept/new", methods=['GET', 'POST'])
 @login_required
-def new_post():
-    form = PostForm()
+def new_dept():
+    form = DeptForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
-        db.session.add(post)
+        dept = Department(dname=form.dname.data, dnumber=form.dnumber.data,mgr_ssn=form.mgr_ssn.data,mgr_start=form.mgr_start.data)
+        db.session.add(dept)
         db.session.commit()
-        flash('Your post has been created!', 'success')
+        flash('You have added a new department!', 'success')
         return redirect(url_for('home'))
-    return render_template('create_post.html', title='New Post',
-                           form=form, legend='New Post')
+    return render_template('create_dept.html', title='New Department',
+                           form=form, legend='New Department')
 
 
-@app.route("/post/<int:post_id>")
-def post(post_id):
-    post = Post.query.get_or_404(post_id)
-    return render_template('post.html', title=post.title, post=post)
-
-
-@app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
+@app.route("/dept/<dnumber>")
 @login_required
-def update_post(post_id):
-    post = Post.query.get_or_404(post_id)
-    if post.author != current_user:
-        abort(403)
-    form = PostForm()
-    if form.validate_on_submit():
-        post.title = form.title.data
-        post.content = form.content.data
+def dept(dnumber):
+    dept = Department.query.get_or_404(dnumber)
+    return render_template('dept.html', title=dept.dname, dept=dept, now=datetime.utcnow())
+
+
+@app.route("/dept/<dnumber>/update", methods=['GET', 'POST'])
+@login_required
+def update_dept(dnumber):
+    dept = Department.query.get_or_404(dnumber)
+    currentDept = dept.dname
+
+    form = DeptUpdateForm()
+    if form.validate_on_submit():          # notice we are are not passing the dnumber from the form
+        if currentDept !=form.dname.data:
+            dept.dname=form.dname.data
+        dept.mgr_ssn=form.mgr_ssn.data
+        dept.mgr_start=form.mgr_start.data
         db.session.commit()
-        flash('Your post has been updated!', 'success')
-        return redirect(url_for('post', post_id=post.id))
-    elif request.method == 'GET':
-        form.title.data = post.title
-        form.content.data = post.content
-    return render_template('create_post.html', title='Update Post',
-                           form=form, legend='Update Post')
+        flash('Your department has been updated!', 'success')
+        return redirect(url_for('dept', dnumber=dnumber))
+    elif request.method == 'GET':              # notice we are not passing the dnumber to the form
+
+        form.dnumber.data = dept.dnumber
+        form.dname.data = dept.dname
+        form.mgr_ssn.data = dept.mgr_ssn
+        form.mgr_start.data = dept.mgr_start
+    return render_template('create_dept.html', title='Update Department',
+                           form=form, legend='Update Department')
 
 
-@app.route("/post/<int:post_id>/delete", methods=['POST'])
+
+
+@app.route("/dept/<dnumber>/delete", methods=['POST'])
 @login_required
-def delete_post(post_id):
-    post = Post.query.get_or_404(post_id)
-    if post.author != current_user:
-        abort(403)
-    db.session.delete(post)
+def delete_dept(dnumber):
+    dept = Department.query.get_or_404(dnumber)
+    db.session.delete(dept)
     db.session.commit()
-    flash('Your post has been deleted!', 'success')
+    flash('The department has been deleted!', 'success')
     return redirect(url_for('home'))
