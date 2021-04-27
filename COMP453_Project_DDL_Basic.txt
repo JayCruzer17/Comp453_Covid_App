@@ -21,7 +21,7 @@ constraint username_PK Primary Key(username));
 Create Table Vaccine
 (vaccineBrand varchar(25) Not null, vaccineLotNum char(15) NOT NULL, vaccineDistDate DATE NOT NULL, vaxID INT NOT NULL,
 constraint vaccine_PK Primary Key(vaccineBrand,vaccineLotNum),
-constraint vaxID_FK FOREIGN KEY (vaxID) references Vaccination_Site(vaxID)));
+constraint vaxID_FK FOREIGN KEY (vaxID) references Vaccination_Site(vaxID));
 
 Create Table Test
 (username varchar(25) Not null, testID INT NOT NULL, testDate DATE NOT NULL, testTime char(4) not null, testResult CHAR(1),
@@ -98,9 +98,9 @@ Values
 INSERT INTO Test
 (username,testID,testDate,testTime,testResult)
 VALUES
-('tester1',1,'2021-04-29','1230',),
-('tester2',3,'2021-04-31','1415',),
-('tester3',4,'2021-04-29','1230',),
+('tester1',1,'2021-04-29','1230',NULL),
+('tester2',3,'2021-04-31','1415',NULL),
+('tester3',4,'2021-04-29','1230',NULL),
 ('tester1',2,'2021-04-12','1500','P');
 
 INSERT INTO Vaccination
