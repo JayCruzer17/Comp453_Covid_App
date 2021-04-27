@@ -13,8 +13,9 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")
 @app.route("/home")
 def home():
-    posts = Post.query.all()
-    return render_template('home.html', posts=posts)
+    #posts = Post.query.all()
+    #return render_template('home.html', posts=posts)
+    return render_template('home.html')
 
 
 @app.route("/about")
@@ -35,8 +36,8 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
-        return render_template('register.html', title='Register', form=form)
-        #return redirect(url_for('login'))
+        #return render_template('register.html', title='Register', form=form)
+        return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
 
@@ -46,8 +47,9 @@ def login():
         return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
+        user = Users.query.filter_by(email=form.email.data).first()
+        #if user and bcrypt.check_password_hash(user.password, form.password.data):
+        if user and user.password == form.password.data:
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('home'))

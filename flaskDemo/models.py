@@ -6,8 +6,7 @@ db.Model.metadata.reflect(db.engine)
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(username)
-    #return User.query.get(int(user_id))
+    return Users.query.get(int(user_id))
 
 
 class User(db.Model, UserMixin):
@@ -37,7 +36,7 @@ class Test(db.Model):
     
 class Testing_Site(db.Model):
     __table__ = db.Model.metadata.tables['testing_site']
-class Users(db.Model):
+class Users(db.Model, UserMixin):
     __table__ = db.Model.metadata.tables['users']
 class Vaccination(db.Model):
     __table__ = db.Model.metadata.tables['vaccination']

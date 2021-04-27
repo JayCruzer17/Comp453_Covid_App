@@ -13,10 +13,10 @@ vaxSaturday BOOLEAN,
 constraint vaxID_PK Primary Key(vaxID));
 
 Create Table Users
-(username varchar(25) Not null unique, firstName varchar(50) NOT NULL, lastName varchar(50) NOT NULL, password varchar(15) NOT NULL, birthDate DATE NOT NULL,
+(id int not null AUTO_INCREMENT, username varchar(25) Not null unique, firstName varchar(50) NOT NULL, lastName varchar(50) NOT NULL, password varchar(15) NOT NULL, birthDate DATE NOT NULL,
 userAddress varchar(100) NOT NULL, userZip char(5) NOT NULL, userCity varchar(50) not null,
 email varchar(50) NOT NULL, gender char(1) NOT NULL, userPhone char(10) NOT NULL, insuranceProvider varchar(50), insuranceNum varchar(20),
-constraint username_PK Primary Key(username));
+constraint id_PK Primary Key(id));
 
 Create Table Vaccine
 (vaccineBrand varchar(25) Not null, vaccineLotNum char(15) NOT NULL, vaccineDistDate DATE NOT NULL, vaxID INT NOT NULL,
@@ -24,15 +24,15 @@ constraint vaccine_PK Primary Key(vaccineBrand,vaccineLotNum),
 constraint vaxID_FK FOREIGN KEY (vaxID) references Vaccination_Site(vaxID));
 
 Create Table Test
-(username varchar(25) Not null, testID INT NOT NULL, testDate DATE NOT NULL, testTime char(4) not null, testResult CHAR(1),
-constraint Test_PK Primary Key(username,testID,testDate),
-constraint username_TEST_FK FOREIGN KEY (username) references Users(username),
+(id int not null, testID INT NOT NULL, testDate DATE NOT NULL, testTime char(4) not null, testResult CHAR(1),
+constraint Test_PK Primary Key(id,testID,testDate),
+constraint id_TEST_FK FOREIGN KEY (id) references Users(id),
 constraint testID_FK FOREIGN KEY (testID) references Testing_Site(testID));
 
 Create Table Vaccination
-(username varchar(25) Not null, vaccineBrand varchar(25) Not null, vaccineLotNum char(15) NOT NULL, vaccineTime char(4) not null,
-constraint Test_PK Primary Key(username,vaccineBrand,vaccineLotNum),
-constraint username_VAX_FK FOREIGN KEY (username) references Users(username),
+(id int not null, vaccineBrand varchar(25) Not null, vaccineLotNum char(15) NOT NULL, vaccineTime char(4) not null,
+constraint Test_PK Primary Key(id,vaccineBrand,vaccineLotNum),
+constraint id_VAX_FK FOREIGN KEY (id) references Users(id),
 constraint vaccineBrand_FK FOREIGN KEY (vaccineBrand,vaccineLotNum) references Vaccine(vaccineBrand,vaccineLotNum));
 
 insert into Testing_Site
@@ -96,17 +96,17 @@ Values
 ('Moderna','000000000000018','2021-06-09',4);
 
 INSERT INTO Test
-(username,testID,testDate,testTime,testResult)
+(id,testID,testDate,testTime,testResult)
 VALUES
-('tester1',1,'2021-04-29','1230',NULL),
-('tester2',3,'2021-04-31','1415',NULL),
-('tester3',4,'2021-04-29','1230',NULL),
-('tester1',2,'2021-04-12','1500','P');
+(1,1,'2021-04-29','1230',NULL),
+(2,3,'2021-04-31','1415',NULL),
+(3,4,'2021-04-29','1230',NULL),
+(1,2,'2021-04-12','1500','P');
 
 INSERT INTO Vaccination
-(username,vaccineBrand,vaccineLotNum,vaccineTime)
+(id,vaccineBrand,vaccineLotNum,vaccineTime)
 VALUES
-('tester1','Pfizer','000000000000002','1230'),
-('tester1','Pfizer','000000000000014','1230'),
-('tester2','Moderna','000000000000004','0930'),
-('tester3','Pfizer','000000000000010','1315');
+(1,'Pfizer','000000000000002','1230'),
+(1,'Pfizer','000000000000014','1230'),
+(2,'Moderna','000000000000004','0930'),
+(3,'Pfizer','000000000000010','1315');
