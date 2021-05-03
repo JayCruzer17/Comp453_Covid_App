@@ -112,6 +112,18 @@ def account():
 ##                           image_file=image_file, form=form)
 
 
+@app.route("/schedule", methods=['GET', 'POST'])
+@login_required
+def schedule():
+    
+    form= PostForm()
+    if form.validate_on_submit():
+     
+        db.session.commit()
+    
+    return render_template('schedule.html', title= 'Schedule Vaccine', form=form) 
+  
+
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
