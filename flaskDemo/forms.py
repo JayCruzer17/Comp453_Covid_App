@@ -59,23 +59,37 @@ class LoginForm(FlaskForm):
 
 class UpdateAccountForm(FlaskForm):
     username = StringField('Username',
-                           validators=[DataRequired(), Length(min=2, max=20)])
+                           validators=[DataRequired(), Length(min=2, max=25)])
     email = StringField('Email',
-                        validators=[DataRequired(), Email()])
-    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
+                        validators=[DataRequired(), Length(min=2, max=50), Email()])
+    #picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
+    phone = StringField('Phone',
+                        validators=[DataRequired(),Length(min=10, max=10)])
+    address = StringField('Address',
+                        validators=[DataRequired(),Length(min=2, max=100)])
+    zipcode = StringField('Zip Code',
+                        validators=[DataRequired(),Length(min=5, max=5)])
+    city = StringField('City',
+                        validators=[DataRequired(),Length(min=2, max=50)])
+    insurancePro = StringField('Insurance Provider',
+                        validators=[Optional(),Length(min=2, max=50)])
+    insuranceNum = StringField('Insurance Number',
+                        validators=[Optional(),Length(min=2, max=20)])
     submit = SubmitField('Update')
 
     def validate_username(self, username):
         if username.data != current_user.username:
-            user = User.query.filter_by(username=username.data).first()
+            user = Users.query.filter_by(username=username.data).first()
             if user:
                 raise ValidationError('That username is taken. Please choose a different one.')
+        return self
 
     def validate_email(self, email):
         if email.data != current_user.email:
-            user = User.query.filter_by(email=email.data).first()
+            user = Users.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('That email is taken. Please choose a different one.')
+        return self
 
 
 class PostForm(FlaskForm):
