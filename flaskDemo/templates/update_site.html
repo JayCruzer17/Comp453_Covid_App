@@ -1,0 +1,54 @@
+<!-- {% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
+			{% block testID %} {% endblock testID %}
+            <div class="form-group">
+                {{ form.testName.label(class="form-control-label") }}
+                {% if form.testName.errors %}
+                    {{ form.testName(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.testName.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.testName(class="form-control form-control-lg") }}
+                {% endif %}
+           <!--  </div>
+			<!-- <div class="form-group">
+                {{ form.mgr_ssn.label(class="form-control-label") }}
+                {% if form.mgr_ssn.errors %}
+                    {{ form.mgr_ssn(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.mgr_ssn.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.mgr_ssn(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+			<div class="form-group">
+                {{ form.mgr_start.label(class="form-control-label") }}
+                {% if form.mgr_start.errors %}
+                    {{ form.mgr_start(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.mgr_start.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.mgr_start(class="form-control form-control-lg") }}
+                {% endif %} -->
+            </div> -->
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+{% endblock content %} -->
