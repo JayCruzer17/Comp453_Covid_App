@@ -1,38 +1,58 @@
 {% extends "layout.html" %}
 {% block content %}
-<html>
-<head>
-	<title>Covid-19 Testing Page</title>
-    </head>
-	<body>
-		<h2>Covid-19 Testing</h2>
-		<p>Fill out the information below to find a test nearby</p>
-			<form action="" method='POST' name="myform">
-		<p>
-			<label for="testSite">Choose a Test Site:</label>
-			<select id="site" name="site">
-				<option value="Skokie">Skokie</option>
-				<option value="Des Plaines">Des Plaines</option>
-				<option value="Evanston">Evanston</option>
-				<option value="Chicago">Chicago</option>
-			</select>
-		</p>
-			<p>
-				{{ form.csrt_token }}
-				{{ form.startdate.label }} {{form.startdate(class='datepicker')}} {{form.hidden_tag()}}
-				{{ form.enddate.label }} {{form.enddate(class='datepicker')}} {{form.hidden_tag()}}
-			</p>
-				<p>
-				{{form.submit()}}
-				</p>
-			<!-- <label for="testTime">Choose a time:</label>
-			<select id="time" name="time">
-				<option value="Skokie">9:00 am</option>
-				<option value="Des Plaines">Des Plaines</option>
-				<option value="Evanston">Evanston</option>
-				<option value="Chicago">Chicago</option>
-			<input type="submit"> -->
-		</form>
-	</body>
-</html>
+    <h1>Covid-19 Test History Page</h1>
+
+      <div class="media">
+        <!-- <img class="rounded-circle account-img" src="{{ image_file }}"> -->
+        <div class="media-body">
+          <h2 class="account-heading">{{ current_user.firstName }} {{ current_user.lastName }}</h2>
+          <p class="text-secondary">Birthdate: {{ current_user.birthDate }}</p>
+        </div>
+      </div>
+
+	
+		  
+ 	
+		  {% for query in testHist %}
+		  
+			
+			{% if current_user.id == query.id  %}
+			<!-- 	<div class="media-body">
+				<div class="article-metadata">
+				<p class="text-secondary">Test Address: {{  query.testAddress }} </p>
+				<p class="text-secondary">Test City ZIP: {{  query.testCity }} </p>
+				<p class="text-secondary">Test Site ZIP: {{  query.testZip }} </p>
+				<p class="text-secondary">Test Result: {{  query.testResult }} </p>
+				</div> -->
+				
+				
+				
+				<article class="media content-section">
+          
+          <div class="media-body">
+            <div class="article-metadata">
+              <p class="mr-2">Test Address: {{  query.testAddress }} </p>
+			  <p class="mr-2">Test City ZIP: {{  query.testCity }}  </p>
+			  <p class="mr-2">Test Site ZIP: {{  query.testZip }} </p>
+			  </div>
+			  
+			  <div class="medium">
+			  <a class="article-content">Test Result: {{  query.testResult }} </a>
+				</div>
+          
+        </article>
+			{% endif %} 
+			
+			
+		  {% endfor %} 
+		  
+		  
+		  
+	
+	  
+	  
+	  
+	  
+	  
+	 
 {% endblock content %}
