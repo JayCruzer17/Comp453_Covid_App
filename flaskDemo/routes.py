@@ -111,6 +111,10 @@ def account():
 ##    return render_template('account.html', title='Account',
 ##                           image_file=image_file, form=form)
 
+@app.route("/testing", methods=['GET', 'POST'])
+@login_required
+def testing():
+    return render_template('testing.html', title= 'Testing History')
 
 @app.route("/vaccine", methods=['GET', 'POST'])
 @login_required
