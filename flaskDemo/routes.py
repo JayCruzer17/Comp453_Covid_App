@@ -114,7 +114,19 @@ def account():
 @app.route("/testing", methods=['GET', 'POST'])
 @login_required
 def testing():
-    return render_template('testing.html', title= 'Testing History')
+  #  testHist = Testing_Site.query.all()
+
+   # query = Testing_Site.query.join(Test, Testing_Site.testID == Test.testID) \
+    #        .add_columns(Testing_Site.testAddress, Testing_Site.testCity, Testing_Site.testZip, Test.testResult) \
+     #       .group_by(Testing_Site.testID)
+    testHist = Test.query.all()
+
+    query = Test.query.join(Testing_Site, Test.testID == Testing_Site.testID) \
+           .add_columns(Test.id, Testing_Site.testAddress, Testing_Site.testCity, Testing_Site.testZip, Test.testResult) \
+    
+    return render_template('testing.html', title= 'Testing History', testHist = query)
+
+
 
 @app.route("/vaccine", methods=['GET', 'POST'])
 @login_required
