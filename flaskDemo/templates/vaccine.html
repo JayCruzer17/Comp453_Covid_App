@@ -1,4 +1,37 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>Covid-19 Vaccination Page</h1>
+
+      <div class="media">
+        <!-- <img class="rounded-circle account-img" src="{{ image_file }}"> -->
+        <div class="media-body">
+          <h2 class="account-heading">{{ current_user.firstName }} {{ current_user.lastName }}</h2>
+          <p class="text-secondary">Birthdate: {{ current_user.birthDate }}</p>
+        </div>
+      </div>
+
+	
+		  
+ 	
+		  {% for quer in vachist %}
+		  
+			
+			{% if current_user.id == quer.id  %}
+			
+				<p class="text-secondary">Last Vaccination ahaha: {{  quer.vaccineBrand }} </p>
+				<p class="text-secondary">Vaccination Date: {{  quer.vaccineDistDate }} </p>
+				  
+			{% endif %} 
+			
+		  {% endfor %} 
+		  
+		  
+		  
+	
+	  
+	  
+	  
+	  
+	  
+	 
 {% endblock content %}
