@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ post.vaxName }}</a>
+              <small class="text-muted">{{ post.vaccineBrand }}</small>
+            </div>
+            <h2><a class="article-title" href="">{{ post.vaccineDistDate }}</a></h2>
+			<p class="article-content">{{ post.vaxAddress }}</p>
+            <p class="article-content">{{ post.vaxCity }}, Illinois. {{ post.vaxZip }}</p>
+			<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('vaccination_appointment_site_num', vax_site_id=post.vaxID, vaccine_brand=post.vaccineBrand, vaccine_num=post.vaccineLotNum) }}">Select</a>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ post.testName }}</a>
+              <small class="text-muted">{{ post.testID }}</small>
+            </div>
+            <h2><a class="article-title" href="">{{ post.testAddress }}</a></h2>
+            <p class="article-content">{{ post.testCity }}, Illinois. {{ post.testZip }}</p>
+			<p class="article-content">Appointment Date: {{ test_date }}</p>
+			<p class="article-content">Appointment Time: {{ test_time }}</p>
+			<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('covid_test_appointment_site_date_time_confirmed', test_site_id=post.testID, test_date=test_date, test_time=test_time) }}">Confirm</a>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

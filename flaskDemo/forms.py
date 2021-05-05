@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, DateField, SelectField, validators, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField, validators #DateField
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Optional
 from flaskDemo.models import Users
@@ -98,6 +98,9 @@ class PostForm(FlaskForm):
     content = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Post')
 
+class TestDateForm(FlaskForm):
+    testDate = DateField('Date', validators=[DataRequired()])
+    submit = SubmitField('Select')
 
 class InfoForm(FlaskForm):
     startdate = DateField('Start Date', format='%Y-%m-%d', validators=[DataRequired()])

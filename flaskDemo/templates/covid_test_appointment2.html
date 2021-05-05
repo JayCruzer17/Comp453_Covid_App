@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ post.testName }}</a>
+              <small class="text-muted">{{ post.testID }}</small>
+            </div>
+            <h2><a class="article-title" href="">{{ post.testAddress }}</a></h2>
+            <p class="article-content">{{ post.testCity }}, Illinois. {{ post.testZip }}</p>
+			{% if post.testSunday == 1 %}
+			<p class="article-content">Sunday: {{ post.testOpen }} - {{ post.testClose }}</p>
+			{% else %}
+			<p class="article-content">Sunday: Closed</p>
+			{% endif %}
+			{% if post.testMonday == 1 %}
+			<p class="article-content">Monday: {{ post.testOpen }} - {{ post.testClose }}</p>
+			{% else %}
+			<p class="article-content">Monday: Closed</p>
+			{% endif %}
+			{% if post.testTuesday == 1 %}
+			<p class="article-content">Tuesday: {{ post.testOpen }} - {{ post.testClose }}</p>
+			{% else %}
+			<p class="article-content">Tuesday: Closed</p>
+			{% endif %}
+			{% if post.testWednesday == 1 %}
+			<p class="article-content">Wednesday: {{ post.testOpen }} - {{ post.testClose }}</p>
+			{% else %}
+			<p class="article-content">Wednesday: Closed</p>
+			{% endif %}
+			{% if post.testThursday == 1 %}
+			<p class="article-content">Thursday: {{ post.testOpen }} - {{ post.testClose }}</p>
+			{% else %}
+			<p class="article-content">Thursday: Closed</p>
+			{% endif %}
+			{% if post.testFriday == 1 %}
+			<p class="article-content">Friday: {{ post.testOpen }} - {{ post.testClose }}</p>
+			{% else %}
+			<p class="article-content">Friday: Closed</p>
+			{% endif %}
+			{% if post.testSaturday == 1 %}
+			<p class="article-content">Saturday: {{ post.testOpen }} - {{ post.testClose }}</p>
+			{% else %}
+			<p class="article-content">Saturday: Closed</p>
+			{% endif %}
+          </div>
+        </article>
+    {% endfor %}
+		<form method="POST" action="" enctype="multipart/form-data">
+				{{ form.hidden_tag() }}
+				<fieldset class="form-group">
+					<legend class="border-bottom mb-4">Select Date</legend>
+					<div class="form-group">
+						{{ form.testDate.label(class="form-control-label") }}
+
+						{% if form.testDate.errors %}
+							{{ form.testDate(class="form-control form-control-lg is-invalid datepicker") }}
+							<div class="invalid-feedback">
+								{% for error in form.testDate.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.testDate(class="form-control form-control-lg datepicker") }}
+						{% endif %}
+					</div>
+				</fieldset>
+				<div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+				</div>
+		</form>
+{% endblock content %}

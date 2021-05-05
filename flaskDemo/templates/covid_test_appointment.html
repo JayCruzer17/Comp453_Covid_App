@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ post.testName }}</a>
+              <small class="text-muted">{{ post.testID }}</small>
+            </div>
+            <h2><a class="article-title" href="">{{ post.testAddress }}</a></h2>
+            <p class="article-content">{{ post.testCity }}, Illinois. {{ post.testZip }}</p>
+			{% if post.testSunday == 1 %}
+			<p class="article-content">Sunday: {{ post.testOpen }} - {{ post.testClose }}</p>
+			{% else %}
+			<p class="article-content">Sunday: Closed</p>
+			{% endif %}
+			{% if post.testMonday == 1 %}
+			<p class="article-content">Monday: {{ post.testOpen }} - {{ post.testClose }}</p>
+			{% else %}
+			<p class="article-content">Monday: Closed</p>
+			{% endif %}
+			{% if post.testTuesday == 1 %}
+			<p class="article-content">Tuesday: {{ post.testOpen }} - {{ post.testClose }}</p>
+			{% else %}
+			<p class="article-content">Tuesday: Closed</p>
+			{% endif %}
+			{% if post.testWednesday == 1 %}
+			<p class="article-content">Wednesday: {{ post.testOpen }} - {{ post.testClose }}</p>
+			{% else %}
+			<p class="article-content">Wednesday: Closed</p>
+			{% endif %}
+			{% if post.testThursday == 1 %}
+			<p class="article-content">Thursday: {{ post.testOpen }} - {{ post.testClose }}</p>
+			{% else %}
+			<p class="article-content">Thursday: Closed</p>
+			{% endif %}
+			{% if post.testFriday == 1 %}
+			<p class="article-content">Friday: {{ post.testOpen }} - {{ post.testClose }}</p>
+			{% else %}
+			<p class="article-content">Friday: Closed</p>
+			{% endif %}
+			{% if post.testSaturday == 1 %}
+			<p class="article-content">Saturday: {{ post.testOpen }} - {{ post.testClose }}</p>
+			{% else %}
+			<p class="article-content">Saturday: Closed</p>
+			{% endif %}
+			<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('covid_test_appointment_site', test_site_id=post.testID) }}">Select</a>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

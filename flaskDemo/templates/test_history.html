@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ post.testName }}</a>
+              <small class="text-muted">{{ post.testDate }}</small>
+            </div>
+            <h2><a class="article-title" href="">Covid Test</a></h2>
+            {% if post.testResult == 'P' %}
+			<p class="article-content">Result: Positive</p>
+			{% elif post.testResult == 'N' %}
+			<p class="article-content">Result: Negative</p>
+			{% else %}
+			<p class="article-content">Result:</p>
+			{% endif %}
+			{% if post.testDate > datetime %}
+			<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('testing_delete', test_date=post.testDate, test_ID=post.testID) }}">Delete</a>
+			{% endif %}
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
