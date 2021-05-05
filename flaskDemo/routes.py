@@ -112,6 +112,20 @@ def account():
 ##                           image_file=image_file, form=form)
 
 
+@app.route("/vaccine", methods=['GET', 'POST'])
+@login_required
+def vaccine():
+    vachist = Vaccination.query.all()
+    
+    quer= Vaccination.query.join( Vaccine, Vaccination.vaccineBrand== Vaccine.vaccineBrand ) \
+    .add_columns(Vaccine.vaccineDistDate, Vaccination.id, Vaccination.vaccineBrand) \
+    .group_by(Vaccination.vaccineLotNum)
+  
+    return render_template('vaccine.html', title= 'Vaccine History', vachist= quer) 
+  
+
+
+
 @app.route("/schedule", methods=['GET', 'POST'])
 @login_required
 def schedule():
